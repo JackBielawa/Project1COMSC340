@@ -1,52 +1,62 @@
-import java.util.Random;
+import java.util.Scanner;
 
 public class Tester {
 
-    private static final Random random = new Random();
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Which algorithm (s for sum, sm for scaler mult, mm for matrix mult): ");
+		String alg = input.nextLine();
+		
+		if (alg.equals("s"))
+		{
+			System.out.println("Array size: ");
+			int n = input.nextInt();
+			int[] array = new int[n];
+			for (int i = 0; i<n; i++)
+				array[i] = (int)(Math.random()*100);
+			
+			System.out.println(algorithms.arraySum(n, array));
+		}
+		
+		else if(alg.equals("sm"))
+		{
+			System.out.println("Matrix size: ");
+			int n = input.nextInt();
+			System.out.println("Constant: ");
+			int constant = input.nextInt();
+			int[][] matrix = new int[n][n];
+			for (int r = 0; r<n; r++)
+				for (int c = 0; c<n; c++)
+					matrix[r][c] = (int)(Math.random()*100);
+			
+			int[][] result = algorithms.scalarMatMult(n, matrix, constant);
+			
+			for (int r = 0; r<n; r++)
+				for (int c = 0; c<n; c++)
+					System.out.print(result[r][c] + ", ");
+		}
+		
+		else if(alg.equals("mm"))
+		{
+			System.out.println("Matrix size: ");
+			int n = input.nextInt();
+			int[][] m1 = new int[n][n];
+			int[][] m2 = new int[n][n];
+			
+			for (int r = 0; r<n; r++)
+				for (int c = 0; c<n; c++)
+				{
+					m1[r][c] = (int)(Math.random()*100);
+					m2[r][c] = (int)(Math.random()*100);
+				}
+			
+			int[][] result = algorithms.matrixMult(n, m1, m2);
+			
+			for (int r = 0; r<n; r++)
+				for (int c = 0; c<n; c++)
+					System.out.print(result[r][c] + ", ");
+		}
+	}
 
-    public static void main(String[] args) {
-        // Define input sizes for testing
-        int[] inputSizes = new int[]{10, 100, 200, 500, 1000};
-        
-        for (int size : inputSizes) {
-            System.out.println("Testing with input size: " + size);
-            
-            // Test arraySum
-            double[] array = new double[size];
-            for (int i = 0; i < size; i++) {
-                array[i] = random.nextDouble() * 100; // Generate random doubles between 0 and 100
-            }
-            long start = System.nanoTime();
-            double sum = algorithms.arraySum(size, array);
-            long end = System.nanoTime();
-            System.out.println("Sum of array elements: " + sum + ", Time taken: " + (end - start) + " ns");
-            
-            // Test scalarMatMult
-            int[][] matrix = generateRandomMatrix(size, 10); // Generate random matrix with values up to 10
-            start = System.nanoTime();
-            int[][] scaledMatrix = algorithms.scalarMatMult(size, matrix, 3); // Scale matrix by a constant factor of 3
-            end = System.nanoTime();
-            System.out.println("Scalar matrix multiplication, Time taken: " + (end - start) + " ns");
-            
-            // Test matrixMult
-            int[][] matrix2 = generateRandomMatrix(size, 10); // Second matrix for multiplication
-            start = System.nanoTime();
-            int[][] productMatrix = algorithms.matrixMult(size, matrix, matrix2);
-            end = System.nanoTime();
-            System.out.println("Matrix multiplication, Time taken: " + (end - start) + " ns");
-            
-            System.out.println(); // Add a newline for readability between tests
-        }
-    }
-
-    // Helper method to generate a random matrix of integers
-    private static int[][] generateRandomMatrix(int size, int maxValue) {
-        int[][] matrix = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                matrix[i][j] = random.nextInt(maxValue + 1); // Generate values between 0 and maxValue
-            }
-        }
-        return matrix;
-    }
 }
