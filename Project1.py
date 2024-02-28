@@ -8,13 +8,15 @@ class Algorithms:
 # Array Sum Algorithm
     @staticmethod
     def arraySum(array):
-        return sum(array)
+        basic_operations = len(array) - 1
+        return sum(array), basic_operations
     
 # Scalar multiplier Algorithm
     @staticmethod
     def scalarMatMult(matrix, constant):
         n = len(matrix)
-        return [[matrix[r][c] * constant for c in range(n)] for r in range(n)]
+        basic_operations = n ** 2
+        return [[matrix[r][c] * constant for c in range(n)] for r in range(n)], basic_operations
     
 # Matrix multiplication algorithm
     @staticmethod
@@ -26,6 +28,7 @@ class Algorithms:
                 for k in range(n):
                     result[i][j] += m1[i][k] * m2[k][j]
         return result
+    
 
 # Function that generates a random array
 def generate_random_array(n):
@@ -53,15 +56,17 @@ def test_algorithms():
 #    call the correlated function, run the algorithm and then print
 #        the final result of the algorithm and the time elapsed
         start = time.time()
-        sum_result = Algorithms.arraySum(array)
+        sum_result, basic_operations_total = Algorithms.arraySum(array)
         print(f"Sum of {n} elements: {sum_result}, Time: {(time.time() - start) * 1000:.3f} ms")
+        print("# of basic operations: ",basic_operations_total)
         
         start = time.time()
-        scalar_mult_result = Algorithms.scalarMatMult(matrix1, 2)
+        scalar_mult_result, basic_operations_total = Algorithms.scalarMatMult(matrix1, 2)
         print(f"Scalar multiplication of {n}x{n} matrix, Time: {(time.time() - start) * 1000:.3f} ms")
-        
+        print("# of basic operations: ", basic_operations_total)
+
         start = time.time()
-        matrix_mult_result = Algorithms.matrixMult(matrix1, matrix2)
+        matrix_mult_result = Algorithms.count_operations(Algorithms.matrixMult,matrix1, matrix2)
         print(f"Matrix multiplication of {n}x{n}, Time: {(time.time() - start) * 1000:.3f} ms")
 
 # Calls the algorithm testing function and begins the process
